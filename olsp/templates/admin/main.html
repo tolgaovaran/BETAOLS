@@ -1,0 +1,194 @@
+{% load staticfiles %} {% include 'admin/adminheader.html' %}
+<br><br><br>
+	<div class="container">
+		<div class="card tesla1">
+			<div class="card-header">
+				<h2>My Courses</h2>
+				<ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" id="course-tab" data-toggle="tab" href="#course" role="tab" aria-controls="course" aria-selected="false">Courses</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="false">Catagories</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="chat-tab" data-toggle="tab" href="#chat" role="tab" aria-controls="chat" aria-selected="false">Chats</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="onoff-tab" data-toggle="tab" href="#onoff" role="tab" aria-controls="onoff" aria-selected="false">On/off</a>
+					</li>
+				</ul>
+			</div>
+			<div class="card-body">
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+
+
+					    </br></br>
+						<table class="table table-bordered table-responsive table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Email</th>
+									<th>Origin</th>
+									<th>Title</th>
+									<th>Profession</th>
+									<th>gender</th>
+									<th>Register date</th>
+									<th>Phone No</th>
+									<th>Status</th>
+									<th>Last active</th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in user%}
+								<tr onclick="DoNav('{% url 'adminuser' %}?u={{i.email}}');">
+									<th>{{i.id}}</th>
+									<td>{{i.name}}</td>
+									<td>{{i.surname}}</td>
+									<td>{{i.email}}</td>
+									<td>{{i.origin}}</td>
+									<td>{{i.title}}</td>
+									<td>{{i.profession}}</td>
+									<td>{{i.gender}}</td>
+									<td>{{i.registerdate}}</td>
+									<td>{{i.phonenumber}}</td>
+									<td>{{i.status}}</td>
+									<td>{{i.lastact}}</td>
+
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+
+
+					</div>
+					<div class="tab-pane fade" id="course" role="tabpanel" aria-labelledby="course-tab">
+
+
+						<table class="table table-bordered table-responsive table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Instructor Name</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Start date</th>
+									<th>Edndate</th>
+									<th>Catagory</th>
+									<th>url for pictrue</th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in course%}
+								<tr onclick="DoNav('{% url 'admincourse' %}?c={{i.id}}');">
+									<th>{{i.id}}</th>
+									<td>{{i.name}}</td>
+
+									<td>{{i.inst.name}} {{i.inst.surname}}</td>
+
+									<td>{{i.description}}</td>
+									<td>{{i.startdate}}</td>
+									<td>{{i.enddate}}</td>
+									<td>{{i.category.name}}</td>
+									<td>{{i.picture}}</td>
+
+
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
+
+
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Category name</th>
+                                    <th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{%for i in category%}
+							<tr>
+									<th>{{i.id}}</th>
+									<td>{{i.name}}</td>
+            						<td  onclick="DoNav('{% url 'admincategorydelete' %}?ca={{i.id}}');"class='btn btn-danger'>Delete
+            						    </td>
+
+							</tr>
+
+								{%endfor%}
+								 <form action="{%url 'createcategory' %}" method="POST">
+                                              <div class="form-group">
+                                                <label for="name">Category name</label>
+                                                <input type="text" class="form-control" name="name"id="name" placeholder="Enter new category name">
+                                              </div>
+
+
+                                        </form>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="onoff" role="tabpanel" aria-labelledby="onoff-tab">
+                                <div onclick="DoNav('{% url 'adminmakeonoffall' %}?u=on');"class='btn btn-success'>All Online </div>
+								<div onclick="DoNav('{% url 'adminmakeonoffall' %}?u=off');"class='btn btn-secondary'>All Offline</div>
+								<div onclick="DoNav('{% url 'adminmakeonoffall' %}?u=freeze');"class='btn btn-warning'>Freeze Everyone</div>
+						<table class="table table-bordered table-responsive table-hover">
+
+					        </br></br>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name </th>
+									<th>Surname</th>
+
+									<th>Status</th>
+
+
+								</tr>
+							</thead>
+							<tbody>
+								{%for i in user%}
+								<tr>
+
+									<th>{{i.id}}</th>
+									<td>{{i.name}}</td>
+									<td>{{i.surname}}</td>
+
+									<td>{{i.status}}</td>
+
+                                    <td onclick="DoNav('{% url 'adminmakeonoff' %}?u={{i.email}}&u=on');"class='btn btn-success'>Online</td>
+									<td onclick="DoNav('{% url 'adminmakeonoff' %}?u={{i.email}}&u=off');"class='btn btn-secondary'>Offline</td>
+									<td onclick="DoNav('{% url 'adminmakeonoff' %}?u={{i.email}}&u=freeze');"class='btn btn-warning'>freeze</td>
+
+
+
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+
+ function DoNav(theUrl)
+  {
+  document.location.href = theUrl;
+  }
+
+</script>

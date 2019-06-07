@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% include 'admin/adminheader.html' %}
+
+
+<body>
+    <div class="container">
+
+        <h1>Login</h1>
+        <hr>
+            {{x}}
+        {% if x == 1 %}
+        <div class="alert alert-danger">
+            <strong>Wrong Password</strong> Try Again!
+        </div>
+
+        {% endif %}
+
+        {% if x == 4 %}
+        <div class="alert alert-danger">
+            <strong>Your Account is frozen</strong> if you want to <a href="{% url 'unfreeze' %}?unfreeze={{use|urlencode}}">Unfreeze</a> it !
+        </div>
+        {% endif %}
+
+        {% if x == 5 %}
+        <div class="alert alert-danger">
+            <strong>Your Account is Already ON</strong> if you want kick it <a href="{% url 'kick' %}?kick={{use|urlencode}}">Kick</a> it !
+        </div>
+        {% endif %}
+
+        {% if x == 2 %}
+                {{e}}
+        <div class="alert alert-danger">
+                <strong>Account doesnt Exist</strong> Please try another e-mail or <a href="{% url 'register' %}">click here  </a>to register
+        </div>
+        {% endif %}
+
+        <form class="form-group" method="post" action="" data-toggle="validator" role="form" id="Registration">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="superuser">Email</label>
+                <input type="email" name="superuser" id="superuser" placeholder="Enter e-mail" class="form-control" required>
+
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Password please" class="form-control"required>
+            </div>
+            <div class="form-group"><button class="btn btn-primary btn-lg" type="submit">  Login  </button>
+            </div>
+
+         </div>
+
+
+</body>

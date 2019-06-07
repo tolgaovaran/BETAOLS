@@ -1,0 +1,160 @@
+{% load staticfiles %} {% include 'admin/adminheader.html' %}
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-7">
+			 <form class="form-group" method="post" action="" data-toggle="validator" role="form" >
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" value="{{use.email}}" disabled>
+
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control"value="{{use.name}}"required>
+            </div>
+
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" name="surname" id="surname" class="form-control" value="{{use.surname}}" required>
+            </div>
+            {%for i in origin%}
+
+            {%endfor%}
+            <div class="form-group">
+				<label for="origin">Origin</label>
+				<select id="origin" name="origin"class="form-control">
+
+        `       <option>Turkey</option>
+                <option>United States</option>
+                <option>Turkey</option>
+                <option disabled>---------</option>
+				   {%for i in origin%}
+
+				  <option>{{i}}</option>
+				    {%endfor%}
+				</select>
+			</div>
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" class="form-control" value="{{use.title}}"  required>
+            </div>
+            <div class="form-group">
+                <label for="proff">profession</label>
+                <input type="text" name="proff" id="proff" class="form-control" value="{{use.profession}}" required>
+            </div>
+            <div class="form-group">
+				<label for="gender">Gender</label>
+				<select id="gender" name="gender" class="form-control">
+				  <option>dne</option>
+				  <option>Male</option>
+				  <option>Female</option>
+				</select>
+			</div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" name="phone" id="phone" class="form-control"value="{{use.phonenumber}}" required>
+            </div>
+
+            <div class="form-group">
+                    <button class="btn btn-primary btn-lg" type="submit">  Update  </button>
+            </div>
+            </form>
+
+            <div class="form-group">
+                  <a href="{% url 'adminfreeze' %}?u={{use.email}}"><button class="btn btn-warning btn-lg">  Freeze account  </button></a>
+
+
+                   <a href="{% url 'admindelete' %}?u={{use.email}}"><button class="btn btn-danger btn-lg">  Delete account </button> </a>
+            </div>
+
+		</div>
+
+		<div class="col-5">
+                        		    <div id="accordion">
+                          <div class="card">
+                            <div class="card-header" id="headingOne">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                  Classes Enrolled
+                                </button>
+                              </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                              <div class="card-body">
+                                 <ul class="list-group list-group-flush">
+                                            {%if enrol%}
+                                            {%for i in enrol%}
+                                        <li class="list-group-item"><a href="{% url 'admincourse' %}?c={{i.id}}">{{i.name}}<a href="{% url 'adminwithdraw' %}?u={{use.email}}&u={{i.id}}"><div class="btn btn-warning float-right">Unenroll</div></a></a></li>
+                                            {%endfor%}
+                                            {%else%}
+                                        <li class="list-group-item">There is no Enrolled Courses</li>
+                                            {%endif%}
+
+
+                                  </ul>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header" id="headingTwo">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  Classes Given
+                                </button>
+                              </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                              <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    {%if given%}
+                                         {%for i in given%}
+                                        <li class="list-group-item"><a href="{% url 'admincourse' %}?c={{i.id}}">{{i.name}}<a href="{% url 'admincoursedelete' %}?c={{i.id}}"><div class="btn btn-danger float-right">DELETE</div></a></a></li>
+                                            {%endfor%}
+                                            {%else%}
+                                            <li class="list-group-item">There is no  Courses Given</li>
+                                            {%endif%}
+                                      </ul>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header" id="headingThree">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  Conversations
+                                </button>
+                              </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                              <div class="card-body">
+                                 <ul class="list-group list-group-flush">
+                                     {%if chat%}
+                                       {%for i in chat%}
+                                        <li class="list-group-item"><a href="{% url 'admincourse' %}?c={{i.id}}">{{i.name}}<a href="{% url 'adminconvdelete' %}?u={{i.id}}&u={{use.id}}"><div class="btn btn-danger float-right">DELETE</div></a></a></li>
+                                            {%endfor%}
+                                            {%else%}
+
+                                        <li class="list-group-item">There is no Messages</li>
+                                            {%endif%}
+
+
+                                      </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+		</div>
+	</div>
+</div>
+
+
+</div>
+</div>

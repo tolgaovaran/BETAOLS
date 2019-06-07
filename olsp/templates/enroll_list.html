@@ -1,0 +1,171 @@
+{% extends 'n/liheader.html' %}
+
+{% block content %}
+
+<br>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'course_list' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Courses</li>
+  </ol>
+</nav>
+
+<div class="card tesla1">
+    <div class="card-header">
+      <h2>My Courses</h2>
+      <ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Enrolled</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Progress</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contac-tab" data-toggle="tab" href="#contac" role="tab" aria-controls="contact" aria-selected="false">Assignments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Given</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% for i in enr %}{%if user != i.course.inst %}<div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{i.course.name}}" aria-expanded="true" aria-controls="{{i.course.name}}">
+                      <center>
+            			<p style="font-size:18px"><b>{{i.course.name}}<small class="text-muted"> <i>     Start Date : {{i.course.startdate}} / End Date : {{i.course.enddate}}
+            		</i></small></b></p>
+            		</center>
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{i.course.name}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body"><a class="btn btn-default btn-md btn-block" , href="{% url 'course_detail' pk=i.course.id %}"><i>Go to </i><b>{{i.course.name}}</b></a>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>{% endif %}{% endfor %}
+            </div>
+
+
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% for i in verilen %}<div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{i.name}}" aria-expanded="true" aria-controls="{{i.name}}">
+                      <center>
+            			<p style="font-size:18px"><b>{{i.name}}<small class="text-muted"> <i>     Start Date : {{i.startdate}} / End Date : {{i.enddate}}
+            		</i></small></b></p>
+            		</center>
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{i.name}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body"><a class="btn btn-default btn-md btn-block" , href="{% url 'course_detail' pk=i.id %}"><i>Go to </i><b>{{i.name}}</b></a>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>{% endfor %}
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            {% for z in enr %}{%if user != z.course.inst %}<div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{z.course.id}}" aria-expanded="true" aria-controls="{{z.course.id}}">
+                      <center>
+            			<p style="font-size:18px"><b>{{z.course.name}}<small class="text-muted"> <i>     Start Date : {{z.course.startdate}} / End Date : {{z.course.enddate}}
+            		</i></small></b></p>
+            		</center>
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{z.course.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="list-group">
+                            {% for t in taken %}
+                            {% if t.course == z.course %}
+                            {% if t.material.type == "HW" %}
+                                {% for h in homeworks %}
+                                    {% if h.material == t.material %}
+                                        {% if h.status == 1 %}
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-warning">Chapter : {{t.chapter.name}} - Material Type : Homework - Homework Status <span class="badge badge-warning">Submitted</span></a>
+                                        {% else %}
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-success">Chapter : {{t.chapter.name}} - Material Type : Homework - Homework Status <span class="badge badge-success">Checked by Instructor</span></a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <a href="#" class="list-group-item list-group-item-action list-group-item-success">Chapter : {{t.chapter.name}} - {%if t.material.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif t.material.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif t.material.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif t.material.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif t.material.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %} - Material Status <span class="badge badge-success">Completed</span></a>
+                                {% endif %}
+                             {% endif %}
+                             {% endfor %}
+                             {% for aa in materials %}
+                             {% if aa.chapter.course == z.course %}
+                             <a href="#" class="list-group-item list-group-item-action">Chapter : {{aa.chapter.name}} - {%if aa.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif aa.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif aa.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif aa.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif aa.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %} - Material Status <span class="badge badge-secondary">Not Completed</span></a>
+                             {% endif %}
+                             {% endfor %}
+
+                        </div>
+
+
+                    </div>
+                  </div>
+                </div>{% endif %}{% endfor %}
+              </div>
+
+      <div class="tab-pane fade" id="contac" role="tabpanel" aria-labelledby="contac-tab">
+            {% for zz in enr %}{%if user != zz.course.inst %}<div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{zz.course.description}}" aria-expanded="true" aria-controls="{{zz.course.description}}">
+                      <center>
+            			<p style="font-size:18px"><b>{{zz.course.name}}<small class="text-muted"> <i>     Start Date : {{zz.course.startdate}} / End Date : {{zz.course.enddate}}
+            		</i></small></b></p>
+            		</center>
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{zz.course.description}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="list-group">
+                            {% for t in homeworks %}
+                            {% if t.material.chapter.course == zz.course %}
+                            {% if t.material.type == "HW" %}
+                                        {% if t.status == 1 %}
+                                            <a href="http://www.betaols.site{{t.aspath}}" class="list-group-item list-group-item-action list-group-item-warning">Chapter : {{t.material.chapter.name}} - Homework Status <span class="badge badge-warning">Submitted</span></a>
+                                        {% else %}
+                                            <a href="http://www.betaols.site{{t.aspath}}" class="list-group-item list-group-item-action list-group-item-success">Chapter : {{t.material.chapter.name}} - Material Type : Homework - Homework Status <span class="badge badge-success">Checked by Instructor</span></a>
+                                        {% endif %}
+                                {% endif %}{% endif %}
+                             {% endfor %}
+
+                        </div>
+
+
+                    </div>
+                  </div>
+                {% endif %}{% endfor %}
+      </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>
+<div style='clear: both'/>
+</div>
+
+
+{% endblock %}

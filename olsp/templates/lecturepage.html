@@ -1,0 +1,164 @@
+
+
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+{% load staticfiles %}
+{% include 'loggedin.html' %}
+<style>
+div#man a{
+    color:black;
+}
+body {
+    background-size:cover;
+    background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+.a{
+    border-radius: 25px;
+    padding:10px;
+    background-color: rgba(0,0,0,0.39);
+    margin:10px;
+    color:white;
+}
+a {
+        color:white;
+    }
+.container{}
+    .inside{display:none;}
+
+.progress {
+  position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}
+
+hr.style11 {
+	height: 6px;
+	background: url(http://ibrahimjabbari.com/english/images/hr-11.png) repeat-x 0 0;
+    border: 0;
+}
+
+br .detal{
+    line-height: 1px;
+ }
+</style>
+<body>
+
+<html>
+
+<body>
+
+<div class="container">
+    <h1>{{crs.name}} Page</h1>
+    <h5>Description:{{crs.description}}</h5>
+
+    {%for j in chptr%}
+
+<button type="button" class="btn btn-primary my-2" data-toggle="collapse" data-target="#{{j.name}}">{{j.name}}</button>
+<form action="{%url 'modifymat'%}" method="post" role=form>
+<input type="hidden" name="courseid" value="{{crs.id}}">
+<input type="hidden" name="chptrid" value="{{j.id}}">
+  <button type="submit" class="btn btn-info">Modify Materials</button>
+   </form></td>
+  <div id="{{j.name}}" class="collapse">
+
+        {%for i in mtrl%}
+        {%if j.id == i.chapter.id%}
+<br>
+<div class=a><center><br>
+<p class=post><b>{{i.name}}</b> - {{i.description}} </p></center>
+{%if i.type == 'PDF' %}
+<center><embed src="{{i.matpath}}" type="application/pdf" width="100%" height="1000px" /></center><br>
+{%elif i.type == 'VIDEO' %}
+<p>{{i.enddate}}</p>
+<center><video width="512" height="368" controls><source src="" type="video/mp4"></video></center>
+{%elif i.type == 'TEXT' %}
+<br>
+<center><p>{{i.text}}</p></center><br>
+{%else%}
+<center><img src="{{i.matpath}}"></center>
+{%endif%}
+
+</div>
+<br>
+{%endif%}
+{%endfor%}
+
+</div>
+<br>
+
+{%endfor%}
+
+<h2>Enrolled Students</h2>
+<table class="table">
+    <thead class="thead">
+    <th>
+        Name
+    </th>
+    <th>
+        Surname
+    </th>
+</thead>
+
+{%for i in users%}
+<tr>
+    <td>{{i.user.name}} </td>
+    <td>{{i.user.surname}}</td>
+</tr>
+
+{%endfor%}
+</table>
+<form action="{%url 'deletecourse'%}" method="post" role=form>
+<input type="hidden" name="courseid" value="{{crs.id}}">
+<button type="submit" class="btn btn-danger">Delete the Course</button>
+</form>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

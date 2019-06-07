@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{%include 'loggedin.html'%}
+<style>
+body {
+    background-size:cover;
+    background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+.a{
+    border-radius: 25px;
+    padding:10px;
+    background-color: rgba(0,0,0,0.39);
+    margin:10px;
+    color:white;
+}
+
+</style>
+<body>
+
+    <div class="container">
+        <div class="a">
+            <a style="font-size: 50px",  href="{% url 'category_list' %}">All Categories</a>
+        </div>
+      <div class="a">
+            <a style="font-size: 50px", href="{% url 'course_list' %}">All Courses</a>
+        </div>
+        <div class="a">
+            <a style="font-size: 50px", href="{% url 'enroll_list' %}">Enrolled Courses</a>
+        </div>
+    </div>
+
+
+
+
+
+</body>

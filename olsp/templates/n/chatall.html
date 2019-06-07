@@ -1,0 +1,31 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+
+<br><br><br>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <p class="lead">Previous messages</p>
+                <ul class="list-group">
+                    {% for i in prev %}
+                    <a class='btn text-capitalize list-group-item d-flex justify-content-between align-items-center' id="chatpr_{{i.id}}"href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}">{{i.name}} {{i.surname}} <span id='spapr_{{i.id}}'class="badge badge-success badge-pill"></span><br></a> {% endfor %}
+                </ul>
+                <p class="lead my-4">Group messages</p>
+
+                <ul class="list-group">
+                    {% for i in coursetkn %}
+                    <a class="btn list-group-item d-flex justify-content-between align-items-center" id="chatg_{{i.id}}" href="{% url 'chat' %}?msjto=g{{i.id|urlencode}}">{{i.name}}<span id='spag_{{i.id}}'class="badge badge-success badge-pill"></span></a> {% endfor %}
+                </ul>
+            </div>
+
+
+            <div class="col-6">
+                <p class="lead">Online Users</p>
+                <ul id="online" class="list-group">
+                    {% for i in everybody %}
+                    <a class="btn text-capitalize list-group-item d-flex justify-content-between align-items-center"id="chat_{{i.id}}" href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}">{{i.name}} {{i.surname}}<span id='spau_{{i.id}}'class="badge badge-success badge-pill"></span></a> {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>

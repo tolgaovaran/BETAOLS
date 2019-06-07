@@ -1,0 +1,10 @@
+{% include 'n/liheader.html' %}
+{%for i in assign%}
+{% if use.id != i.user.id %}
+{% if i.status == 1%}
+<form action="" method="post" role=form>
+<a href="http://www.betaols.site{{i.aspath}}">Click to see {{i.user.name}} {{i.user.surname}}'s homework from {{i.material.chapter.name}}</a>
+Submitted at {{i.date}} <input type="hidden" name="path" value="{{i.aspath}}"> <button type="submit">Accept</button> <br>
+{%endif%}
+{%endif%}
+{%endfor%}

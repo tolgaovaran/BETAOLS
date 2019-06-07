@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% include 'n/booth.html' %}
+
+<head></head>
+<meta charset="UTF-8">
+	<title>Welcome {{name}}{{surname}}</title>
+
+
+	</head>
+<body>c</body>
+<nav class="navbar navbar-expand-md bg-primary navbar-light fixed-top">
+		<div class="container">
+
+			<!-- Logo -->
+			<a class="navbar-brand" href="{% url 'main' %}">BETA ols</a>
+
+			<!-- Links -->
+
+			<ul class="navbar-nav">
+			    <li class="btn btn-primary nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Catagories</a>
+                    <div class="dropdown-menu">
+
+                {%for cat in cate%}
+               <a class="dropdown-item" href="">{{ cat.name }}</a>
+                {%endfor%}
+                </div>
+                </li>
+
+				<li class="btn btn-primary nav-item">
+					<a class="nav-link" href="{% url 'register' %}">Register</a>
+				</li>
+				<li class="btn btn-primary nav-item">
+					<a class="nav-link" href="{% url 'login' %}">Login</a>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+
+<br><br><br>
+</body>
+
+
+
+

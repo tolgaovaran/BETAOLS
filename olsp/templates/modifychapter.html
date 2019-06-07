@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% include 'loggedin.html' %}
+<style>
+div#man a{
+    color:black;
+}
+body {
+    background-size:cover;
+    background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+
+</style>
+<body>
+    <div class="container">
+        <div class="a">
+                <form action="{%url 'modifychptr'%}" method="post" role=form>
+                <label>Chapter Name:</label>
+                <input type="text" name="crsname" value="{{chptr.name}}"></input>
+                <br>
+                <label>Start Date:</label>
+                 <input type="hidden" name="cid" value="{{chptr.id}}">
+                 <input type="date" name="crsstart" id="date" value="{{chptr.startdate|date:"Y-m-d" }}">
+                <br>
+                <label>End Date:</label>
+                 <input type="date" name="crsend" id="date" value="{{chptr.enddate|date:"Y-m-d" }}">
+                <br>
+                <button type="submit">Modify Chapter</button>
+                </form>
+                {%if error%}
+                 <h1>{{error}}</h1>
+                 {%endif%}
+           </div>
+
+           </div>
+</body>

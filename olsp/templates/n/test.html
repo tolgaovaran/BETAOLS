@@ -1,0 +1,151 @@
+
+<head>
+    <div><title>Chat Panel</title></div>
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+
+</head>
+<br><br><br><br><br><br>
+aaaaaaaaaaa
+
+<br><br><br>
+{{tv}}
+aaaaaaaaaaa
+<br><br><br><br
+<br><br><br><br><br><br>
+aaaaaaaaaaa
+
+<br><br><br>
+{{online}}
+
+<br>
+aaaaaaaaaaa
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<!--
+{%for i in xx%}
+<p>{{i.0}}</p>
+<p>{{i.1.name}}</p>
+{%endfor%}
+    {%for i in use%}
+ {%if i.status == 'off' %}
+        <p>{{i.name}}--{{i.surname}}--{{i.status}}***************************** OFFLINE</p>
+    {%elif i.status == 'on' %}
+            <p>{{i.name}}--{{i.surname}}--{{i.status}}************************  ONLINE</p>
+     {%elif i.status == '1' %}
+       <p>{{i.name}}--{{i.surname}}--{{i.status}}                    ==========================</p>
+    {% endif %}
+
+    {%endfor%}
+    -->
+   <body>
+    <div id="chat-body" class="panel panel-default">
+        <div class="panel-heading">Monkey Bomb Chat Box</div>
+        <div id="msg-list-div" class="panel-body">
+            <br><h1>Onlines</h1> <br>
+            <ul id="msg-online" class="list-group">
+
+            </ul>
+                <br><h1>Offlines</h1> <br>
+            <ul id="msg-offline" class="list-group">
+            {{use}}
+            {%for i in tt%}
+                <p>{{i}}</p>
+                {%endfor%}
+            </ul>
+            <br><h1>Wut</h1> <br>
+            <ul id="msg-wut" class="list-group">
+
+
+            </ul>
+
+            <div><a class="btn btn-warning" id="clearall" type="Logout" value="Logout" href="../logout">Logout</a></div>
+
+        </div>
+    </div>
+
+    <form id="chat-form" method="post" action="/post/">
+        <div id="chat-bottom" class="input-group">
+            <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
+            <span class="input-group-btn">
+            <div>
+                <input class="btn btn-primary" id="send" type="submit" value="Send"/>
+            </div>
+
+            </span>
+        </div>
+    </form>
+</body>
+
+<script>
+$('#chat-form').on('submit', function(event){
+    event.preventDefault();
+
+    $.ajax({
+        url : '/post/',
+        type : 'POST',
+        data : { msgbox : $('#chat-msg').val() },
+
+        success : function(json){
+            console.log(json);
+            $('#chat-msg').val('');
+            $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+        }
+    });
+});
+
+function getMessages(){
+    if (!scrolling) {
+        $.get('/test2/', function(json){
+            var wow = JSON.parse(json)
+            console.log(wow)
+              for (var i=0 ; i<wow.length ; i++){
+                  if (wow[i].fields.status == 'on'){
+                      $('#msg-online').replaceWith('<li class="text-right list-group-item">' +wow[i].fields.name+' '+wow[i].fields.status+' '+wow[i].fields.email+'</li>');
+                  }
+                  else if (wow[i].fields.status == 'off'){
+                    $('#msg-offline').replaceWith('<li class="text-right list-group-item">' +wow[i].fields.name+' '+wow[i].fields.status+' '+wow[i].fields.email+'</li>');
+                  }
+                  else
+                   $('#msg-wut').replaceWith('<li class="text-right list-group-item">' +wow[i].fields.name+' '+wow[i].fields.status+' '+wow[i].fields.email+'</li>');
+              }
+
+
+
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+        });
+    }
+
+    scrolling = false;
+}
+
+
+
+var scrolling = false;
+$(function(){
+    $('#msg-list-div').on('scroll', function(){
+        scrolling = true;
+    });
+    refreshTimer = setInterval(getMessages, 1000);
+    var chatlist = document.getElementById('msg-list-div');
+    chatlist.scrollTop = chatlist.scrollHeight;
+});
+
+$(document).ready(function() {
+     $('#send').attr('disabled','disabled');
+     $('#chat-msg').keyup(function() {
+        if($(this).val() != '') {
+            $('#send').removeAttr('disabled');
+        }
+        else {
+            $('#send').attr('disabled','disabled');
+        }
+     });
+});
+</script>

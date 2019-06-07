@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<head>
+{% include 'n/booth.html' %}
+</head>
+<style>
+
+    a {
+        color:white;
+    }
+</style>
+<body>
+
+
+        {%if iff == 'u'%}
+
+                <iframe frameBorder="0"src={% url 'chatshow' %}?msjto={{iff}}{{u2.email|urlencode}} width="100%" height="80%">
+                </iframe>
+        {%elif iff == 'g'%}
+
+                <iframe frameBorder="0"src={% url 'chatshow' %}?msjto={{iff}}{{cour.id|urlencode}} width="100%" height="80%">
+                </iframe>
+        {% endif %}
+
+
+
+
+</input>
+    <form id="chat-form" method="post" action="">
+        {% csrf_token %}
+        <div id="chat-bottom mt-2 pt-2" class="input-group">
+            <input type="text" id="chat-msg" name="message" class="form-control"></input>
+            <span class="input-group-btn">
+                <input class="btn btn-default" id="send" type="submit"value="send"></input>
+            </span>
+        </div>
+    </form>
+
+</body>

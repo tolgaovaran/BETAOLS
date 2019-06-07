@@ -1,0 +1,18 @@
+{% extends 'n/liheader.html' %}
+
+{% block content %}
+    <div class="post">
+
+      <div class="a"><center>
+
+     <h1>Successfully enrolled to <b>{{ cors.name }}</b></h1>
+      <a class="btn btn-primary", href="{% url 'course_detail' pk=cors.pk %}">Back to {{ cors.name }}</a>
+      <a class="btn btn-primary", href="{% url 'course_list' %}">All Courses</a>
+      </center>
+
+
+
+
+     </div>
+     </div>
+{% endblock %}

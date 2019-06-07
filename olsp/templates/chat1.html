@@ -1,0 +1,48 @@
+v{% load staticfiles %} {% include 'loggedin.html' %}
+<style>
+    div#man a {
+        color: black;
+    }
+
+    body {
+        background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+        background-size: cover;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.8);
+
+        padding: 25px;
+        border-radius: 25px;
+    }
+
+</style>
+
+<body>
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    <div id="man" class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <p>Previous message</p>
+                <ul>
+                    {% for i in prev %}
+                    <li><a href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}">{{i.name}} {{i.surname}}</a></li><br/> {% endfor %}
+                </ul>
+                <p>Group messagzzze</p>
+                <ul>
+                    {% for i in course %}
+                    <li><a href="{% url 'chat' %}?msjto=g{{i.course.id|urlencode}}">{{i.course.name}}</a></li><br/> {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-xs-6">
+                <p>All users</p>
+                <ul>
+                    {% for i in everybody %}
+                    <li><a href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}">{{i.name}} {{i.surname}}</a></li><br/> {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+

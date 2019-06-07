@@ -1,0 +1,61 @@
+
+{% load staticfiles %}
+
+<html>
+
+<head>
+    <div><title>Chat Panel</title></div>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
+</head>
+
+<body>
+    <div id="chat-body" class="panel panel-default">
+        <div class="panel-heading">Monkey Bomb Chat Box</div>
+        <div id="msg-list-div" class="panel-body">
+            <ul id="msg-list" class="list-group">
+              
+                {% for obj in chat %}
+                        {%if obj.user.username == "Robot"%}
+                        <li class="list-group-item-item" style="font-size:20px;color:red"><center>{{ obj.message }}</center></li>
+                      
+                        {%elif obj.user == request.user and obj.user.username != "Robot"%}
+                        <li class="text-right list-group-item">{{ obj.message }}</li>
+                            {%else%}
+                        <li class="text-left list-group-item">{{ obj.message }}</li>
+                        {%endif%}   
+                        {% empty %}
+                        <li class="text-right list-group-item">No messages yet!</li>
+                {% endfor %}
+                <script>
+                    var chatlist = document.getElementById('msg-list-div');
+                    chatlist.scrollTop = chatlist.scrollHeight;
+                </script>
+            </ul>
+
+            <div><a class="btn btn-warning" id="clearall" type="Logout" value="Logout" href="../logout">Logout</a></div>
+
+        </div>
+    </div>
+
+    <form id="chat-form" method="post" action="/post/">
+        <div id="chat-bottom" class="input-group">
+            <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
+            <span class="input-group-btn">
+            <div>
+                <input class="btn btn-primary" id="send" type="submit" value="Send"/>
+            </div>
+
+            </span>
+        </div>
+    </form>
+</body>
+<script src="{% static '/static/chat.js' %}"></script>
+</html>

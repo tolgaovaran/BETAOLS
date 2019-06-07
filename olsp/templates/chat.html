@@ -1,0 +1,21 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+
+
+
+<head>
+</head>
+<body>
+    <div class="container">
+        {%if iff == 'u'%}
+                <div><h1 class="lead">messages with {{u2.name}} {{u2.surname}}</h1></div>
+                <iframe  frameBorder="0" src={% url 'chatsend' %}?msjto={{iff}}{{u2.email|urlencode}} width="100%" height="80%">
+                </iframe>
+        {%elif iff == 'g'%}
+                <div><h1 class="lead">{{cour.name}}</h1></div>
+                <iframe frameBorder="0" src={% url 'chatsend' %}?msjto={{iff}}{{cour.id|urlencode}} width="100%" height="80%">
+                </iframe>
+        {% endif %}
+    </div>
+
+</body>

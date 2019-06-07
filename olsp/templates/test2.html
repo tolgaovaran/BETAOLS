@@ -1,0 +1,47 @@
+
+{% include 'n/liheader.html' %}
+<br><br>
+
+<div class="container">
+<a class="btn btn-primary", href="{% url 'course_detail' pk=id %}"><i>Back to Course Page</b></a>
+
+<br><br><br>
+<table id="ananas">
+
+</table>
+</div>
+
+<script>
+
+{%for i in students%}
+{% if use.id != i.user.id %}
+var c=0;
+
+
+{%for t in taken%}
+{% if t.user == i.user %}
+
+
+c++;
+{%endif%}
+
+
+{% endfor %}
+
+var para = document.createElement("TABLE");
+var x = document.createElement("PROGRESS");
+    x.setAttribute("value", c);
+    x.setAttribute("max", {{material}});
+
+var t = document.createTextNode("{{i.user.name}}"+" {{i.user.surname}} ");
+para.appendChild(t);
+document.getElementById("ananas").appendChild(para);
+document.getElementById("ananas").appendChild(x);
+
+
+c=0
+{%endif%}
+{% endfor %}
+
+</script>
+

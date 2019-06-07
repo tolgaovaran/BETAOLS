@@ -1,0 +1,12 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+{% block content %}
+    <div class="post">
+
+      <div class="a">
+      <h1>Please login or register.</h1>
+      <a class="btn btn-primary" href="{% url 'mainli' %}">Login</a><a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+
+     </div>
+     </div>
+{% endblock %}

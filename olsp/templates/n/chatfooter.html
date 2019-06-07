@@ -1,0 +1,206 @@
+ <style>
+        body {
+            margin: 50px;
+        }
+
+        a:hover,
+        a:visited,
+        a:link,
+        a:active {
+            text-color:blue;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        .collapse-group {
+            padding: 10px;
+            border: 1px solid darkgrey;
+            margin-bottom: 10px;
+        }
+
+        .panel-title .trigger:before {
+            content: '\e082';
+            font-family: 'Glyphicons Halflings';
+            vertical-align: text-bottom;
+        }
+
+        .panel-title .trigger.collapsed:before {
+            content: '\e081';
+        }
+
+    </style>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>BETA</title>
+    </head>
+    <body></body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <div class="row fixed-bottom"style="width:400px;">
+            <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingchat">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#chatOne" aria-expanded="true" aria-controls="chatOne" class="trigger collapsed">
+         CHAT
+        </a>
+                        </h4>
+                    </div>
+                    <div id="chatOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingchat">
+                        <div class="panel-body">
+                         <div class="collapse-group ">
+
+
+                <div class="panel panel-default ">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="trigger collapsed">
+         Previous messases
+        </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <ul>
+                                {% for i in prev %}
+                                <li><a href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}"style="color: #1C1C1C">{{i.name}} {{i.surname}}</a></li> {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" class="trigger collapsed">
+          Group messages
+        </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <ul>
+                                {% for i in course %}
+                                <li><a href="{% url 'chat' %}?msjto=g{{i.course.id|urlencode}}"style="color: #1C1C1C">{{i.course.name}}</a></li> {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+               <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingthree">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" class="trigger collapsed">
+          Group messages
+        </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTree">
+                        <div class="panel-body">
+                            <ul>
+                                {% for i in everybody %}
+                                <li><a href="{% url 'chat' %}?msjto=u{{i.email|urlencode}}" style="color: #1C1C1C">{{i.name}} {{i.surname}}</a></li> {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary open-button" type="button">
+      Open all
+    </button>
+                    <button class="btn btn-primary close-button" type="button">
+      Close all
+    </button>
+                </div>
+            </div>
+            </div>
+   </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+    <script>
+        $(".open-button").on("click", function() {
+            $(this).closest('.collapse-group').find('.collapse').collapse('show');
+        });
+
+        $(".close-button").on("click", function() {
+            $(this).closest('.collapse-group').find('.collapse').collapse('hide');
+        });
+
+    </script>
+    <head>
+        <!--
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        -->
+
+<style>
+/*
+body {
+    background-image: url("https://cdn.pbrd.co/images/HhIGYLx.jpg");
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+.a{
+    border-radius: 25px;
+    padding:10px;
+    background-color: rgba(0,0,0,0.39);
+    margin:10px;
+    color:white;
+}
+a {
+        color:white;
+    }
+.container{}
+    .inside{display:none;}
+
+.progress {
+  position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}
+
+hr.style11 {
+	height: 6px;
+	background: url(http://ibrahimjabbari.com/english/images/hr-11.png) repeat-x 0 0;
+    border: 0;
+}
+
+br .detal{
+    line-height: 1px;
+ }*/
+</style>
+ </body>
+
+    <script>
+        $(".open-button").on("click", function() {
+            $(this).closest('.collapse-group').find('.collapse').collapse('show');
+        });
+
+        $(".close-button").on("click", function() {
+            $(this).closest('.collapse-group').find('.collapse').collapse('hide');
+        });
+
+    </script>

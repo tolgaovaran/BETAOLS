@@ -1,0 +1,51 @@
+{% load staticfiles %}
+
+{% include 'loggedout.html' %}
+<style>
+body {
+
+    background: #00a1ef url(https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg) no-repeat;
+     background-size: cover;
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+.a{
+    border-radius: 25px;
+    padding:10px;
+    background-color: rgba(0,0,0,0.39);
+    margin:10px;
+    color:white;
+}
+a {
+        color:white;
+    }
+
+</style>
+<body>
+
+
+     <div class="container">
+         {% for i in c %}
+        <div class="a">
+
+            <center><h1 style="font-size: 30px">
+                <!--<a href="{% url 'course_detail' pk=i.pk %}">{{ i.name }} -- </a>-->
+                <a href="{% url 'login'%}">{{ i.name }} </a>
+                <h1 style="font-size:15px">
+                    <i>Taught by
+                    <a href="{% url 'inst_course_list' pk=i.inst.id %}">{{ i.inst.name }} {{i.inst.surname}}</a>
+                    </i>
+                    </h1>
+
+
+            </center>
+
+        </div>
+        {% endfor %}
+
+
+</body>

@@ -1,0 +1,54 @@
+    {%load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'index/style.css' %}"/>
+  </head>
+  <body>
+  <form action="" method="post" data-toggle="validator" role=form>{% csrf_token %}
+  <div class="form-group">
+   <label>User ID</label>
+   <input type="number" class="form-control" name="id" style="text-align:center" required>
+    </div>
+ <div class="form-group">
+   <label>Password</label>
+   <input type="password" class="form-control" name="password" style="text-align:center" required>
+   <br>
+
+ </div>
+
+ <button type="submit" class="btn btn-success">Login</button>
+ <a href="" class="btn btn-primary" style="color:white" name="Fpassword">Forgot Password</a>
+</form>
+<video id="video" width="320" height="240"  type='video/mp4'  controls controlsList="nodownload"  > </video>
+
+
+<script>
+window.onload = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', '/media/video.mp4', true);
+    xhr.responseType = 'blob'; //important
+    xhr.onload = function(e) {
+        if (this.status == 200  ) {
+            console.log("loaded");
+            var blob = this.response;
+            var video = document.getElementById('video');
+            video.oncanplaythrough = function() {
+                console.log("Can play through video without stopping");
+                URL.revokeObjectURL(this.src);
+
+            };
+            video.src = URL.createObjectURL(blob);
+            video.load();
+            //video.play();
+        };
+    };
+    xhr.send();
+
+}
+
+</script>
+  </body>
+</html>

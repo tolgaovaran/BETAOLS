@@ -1,0 +1,220 @@
+
+{% include 'n/liheader.html' %}
+<html>
+<style>
+    .rounde{
+        border-radius:12px
+    }
+    .hid{
+    visibility: hidden;
+    }
+</style>
+<head>
+    <div><title>Chat Panel</title></div>
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+</head>
+ <input type="text" id="send-name" name="test" value={{use.name}} class="form-control hid"/>
+ <input type="text" id="send-surname" name="test" value={{use.surname}} class="form-control hid"/>
+ <input type="text" id="send-type" name="test" value={{type}} class="form-control hid"/>
+
+ {%if type == 'u' %}
+<input type="text" id="send-message" name="test" value={{reci.email}} class="form-control hid"/>
+ {%endif%}
+{%if type == 'g'%}
+<input type="text" id="send-message" name="test" value={{reci.id}} class="form-control hid"/>
+ {%endif%}
+
+<body>
+
+
+<div class="card bg-light" style="padding:25px;margin:auto;">
+    <div id="chat-body" class="card-body">
+
+        <div class="card-header">{{reci.name}} {{reci.surname}}</div>
+        <div id="msg-list-div" class="card-body">
+            <ul id="msg-list" class="list-group">
+
+                {% for i in chat %}
+
+                        {% if use == i.sender %}
+                        <div class="lead bg-light">{{i.sender.name }}  {{i.sender.surname }}</div>
+                        <li class="border-0 text-right list-group-item bg-light">
+                        <div class="float-right rounde border-primary bg-primary px-5 py-2">
+                            {{i.message}}
+                            </div>
+                            </li>
+                            {% endif %}
+
+                        {% if use != i.sender %}
+                        <div class="lead bg-light">{{i.sender.name }}  {{i.sender.surname }}</div>
+                        <li class="border-0 text-left list-group-item bg-light">
+                        <div class="float-left rounde border-primary bg-primary px-5 py-2">
+                            {{i.message}}
+                            </div>
+                            </li>
+                            {% endif %}
+
+                        {% empty %}
+                        <li class="text-right list-group-item">No messages yet!</li>
+                {% endfor %}
+                <script>
+                    var chatlist = document.getElementById('msg-list-div');
+                    chatlist.scrollTop = chatlist.scrollHeight;
+                </script>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <form id="chat-form" method="post" action="/post/">
+        <div id="chat-bottom" class="input-group">
+            <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
+            <span class="input-group-btn">
+            <div>
+                <input class="btn btn-primary" id="send" type="submit" value="Send"/>
+            </div>
+
+            </span>
+        </div>
+    </form>
+</body>
+</div>
+<script>
+
+$("#chat-msg").keydown(function(e){
+   if(e.keyCode === 13){
+       console.log('YAKALADIM SENI')
+       e.preventDefault();
+       $('#send').click();
+        console.log('111')
+        $('#send').prop("disabled", true);
+        disab();
+   }
+});
+$(document).scrollTop($(document).height());
+
+var name='{{use.name}}';
+var surname='{{use.surnme}}';
+var va='{{type}}';
+
+
+
+
+
+
+
+$('#chat-form').on('submit', function(event){
+
+    event.preventDefault();
+
+    $('#send').prop("disabled", true);
+    $.ajax({
+        url : '/post/',
+        type : 'POST',
+        data : { msgbox : $('#chat-msg').val(),
+                  type : '{{type}}',
+                 target : $('#send-message').val()},
+
+        success : function(json){
+
+            console.log(json);
+
+            $('#send').prop("disabled", true);
+           $('#chat-msg').val('');
+
+            $('#msg-list').append('<div class="lead bg-light">'+name+' '+surname+
+                    '{{i.sender.surname }}</div><li class="border-0 text-right list-group-item bg-light"><div class="float-right rounde border-primary bg-primary px-5 py-2">'
+                      +     json.msg+' </div>');
+         $("html, body").scrollTop($("html, body").height());
+
+
+        }
+    });
+disab();
+
+});
+
+
+function getMessages(){
+    if (!scrolling) {
+        if( va=='u' ){
+            $.get('/messages/?msjto='+va+'{{reci.email}}', function(messages){
+            console.log(messages);
+            $('#msg-list').html(messages);
+            $("html, body").scrollTop($("html, body").height());})
+
+        }
+        else
+            {
+            $.get('/messages/?msjto='+va+'{{reci.id}}', function(messages){
+            console.log(messages);
+            $('#msg-list').html(messages);
+            $("html, body").scrollTop($("html, body").height());})
+            }
+        }
+    scrolling = false;
+}
+
+var scrolling = false;
+$(function(){
+    $(window).scroll(function(){
+        scrolling = true;
+    });
+    refreshTimer = setInterval(getMessages, 3000);
+});
+
+function disab(){
+    console.log('calisti')
+    $('#chat-msg').val('');
+    $('#send').prop("disabled", true);
+     $('#chat-msg').keyup(function() {
+        if($(this).val() != '') {
+            $('#send').prop("disabled", false);
+        }
+        else {
+            $('#send').prop("disabled", true);
+        }
+     });}
+
+
+
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+</script>
+

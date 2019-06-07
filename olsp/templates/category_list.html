@@ -1,0 +1,12 @@
+{% extends 'n/liheader.html' %}
+
+{% block content %}
+    <div class="post">
+        <center><h1><b>Categories</b></h1></center>
+	{% for cat in category %}
+		<div class="a">
+			<center><h1 style="font-size: 30px"><a href="{% url 'category_detail' pk=cat.pk %}">{{ cat.name }}</a></h1></center>
+		</div>
+	{% endfor %}
+	</div>
+{% endblock %}

@@ -1,0 +1,274 @@
+{% extends 'n/liheader.html' %} {% block content %}
+
+
+
+<div>
+  <br>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'course_list' %}">All Courses</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'category_detail' pk=cors.category.id %}">{{cors.category.name}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ cors.name }}</li>
+    </ol>
+  </nav>
+  <div>
+    <div class="btn-group rounded">
+      <a class="btn btn-primary" , "text-align: justify", href="{% url 'course_list' %}">All Courses</a> {%if status == 'true' or cors.inst.email == user %}
+      <a class="btn btn-primary" href="{% url 'chat' %}?msjto=g{{cors.id|urlencode}}">{{cors.name}} Chat</a> {% endif %} {%if status == 'true' %}
+
+      <!-- Large modal -->
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-lg">Withdraw The Course</button>
+
+      <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+
+            <div class="modal-body">
+
+              <center>
+                <H2>Are you sure for Withdraw?</H2>
+              </center>
+              <center><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <a class="btn btn-danger" , "text-align: justify", href="{% url 'withdraw_course' pk=cors.id %}">Withdraw the course</a></center>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %} {%if cors.inst.email == user%}
+
+    <a class="btn btn-primary" , "text-align: justify", href="{%url 'addmaterial'%}?wut={{cors.id}}">Add chapter</a>
+    <a class="btn btn-primary" , "text-align: justify", href="{%url 'editdetail' pk=cors.id%}?wut={{cors.id}}">Edit Details</a>
+    <a class="btn btn-primary" , "text-align: justify", href="{%url 'studentstatus' pk=cors.id pk1=99%}?wut={{cors.id}}">Student's Progresses</a>
+    <a class="btn btn-primary" , "text-align: justify", href="{%url 'assignment' pk=cors.id%}?wut={{cors.id}}">Assignments</a>
+
+
+    <!-- Large modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Enrolled Students</button>
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-body">
+
+            <H2>Enrolled Students</H2> {%for i in users%}
+
+            {{i.user.name}} {{i.user.surname}}
+            <a href="{% url 'chat' %}?msjto=u{{i.user.email|urlencode}}">Message</a>
+            <br> {%endfor%}
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Large modal -->
+      <center><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-lg2">Delete the Course</button></center>
+
+      <div class="modal fade bs-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+
+            <div class="modal-body">
+
+              <center>
+                <H2>Are you sure for delete the course?</H2>
+              </center>
+
+              <center><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{%url 'deletecourse'%}" method="post" role=form>
+                  <input type="hidden" name="courseid" value="{{cors.id}}">
+                  <button type="submit" class="btn btn-danger">Delete the Course</button>
+                </form>
+              </center>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  {% endif %}
+
+</div>
+<br>
+<div>
+  <div class="card tesla1">
+
+    <div class="card-header">
+      <h2>{{ cors.name }}</h2>
+      <ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Details</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Chapters</a>
+        </li>{%if status == 'true' %}
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Progress</a>
+        </li>{% endif %}
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">{%if status == 'true' %}
+          <div class="progress" style="height:33px">
+            <div class="mb-2 progress-bar progress-bar-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{per}}" aria-valuemin="0" aria-valuemax="100" style="width:{{per}}%;height:33px">
+              <span class="show"><h4 class="align-baseline"style="font-size:15px;color:black"><i>Completed </i><b>%{{per}}</b></h4></span>
+            </div>
+
+          </div>{% endif %}
+          <div>
+            <br>
+            <a class="btn btn-default btn-md btn-block" , href="{% url 'inst_course_list' pk=cors.inst.id %}"><i>Instructor </i><b>{{ cors.inst.name }} {{cors.inst.surname}}</b></a>
+            <hr>
+            <a class="btn btn-default btn-md btn-block" , href="{% url 'category_detail' pk=cors.category.id %}"><i>Category </i><b>{{ cors.category.name }}</b></a>
+            <hr>
+            <a class="btn btn-default btn-md btn-block disabled"><i>Start Date </i><b>{{ cors.startdate }}</b></a>
+            <hr>
+            <a class="btn btn-default btn-md btn-block disabled"><i>End Date </i><b>{{ cors.enddate }}</b></a>
+            <hr>
+            <br>
+            <center><i>Description </i> <b>{{cors.description}}</b></center><br> {%if status != 'true' and cors.inst.email != user %}
+            <div>
+
+              <!-- Large modal -->
+              {%if date < cors.startdate  %}
+              <a class="btn btn-default btn-md btn-block disabled"><i>You can not enroll before the start date. Start date of course is   </i><b>{{ cors.startdate }}</b></a>
+
+              {%elif date > cors.enddate %}
+              <a class="btn btn-default btn-md btn-block disabled"><i>You can not be enrolled after the end date. Start date of course is   </i><b>{{ cors.enddate }}</b></a>
+              {%else%}
+              <center><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-lg">Enroll the Course</button></center>
+
+              <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+
+                    <div class="modal-body">
+
+                      <center>
+                        <H2>Are you sure for enroll?</H2>
+                      </center>
+
+                      <center><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> <a class="btn btn-danger" , "text-align: justify", href="{% url 'enroll_course' pk=cors.pk %}">Enroll the {{cors.name}}</a></center>
+
+                    </div>
+                  </div>
+                </div>
+              </div>{% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">{%if status == 'true' or cors.inst.email == user %} {% for ch in chpt %}
+          <div class="a bg bg-light rounded">
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#{{ch.name}}" aria-expanded="true" aria-controls="{{ch.name}}">
+          <center>
+			<p style="font-size:18px"><b>{{ch.name}}{% for i in mat %}{% if ch.id == i.chapter.id %}{{i.id_set.count}}{% endif %}{% endfor %}<small class="text-muted"> <i>Start Date : {{ch.startdate}} / End Date : {{ch.enddate}}
+			{%if user == taken.user.id and taken.chapter.id == chpt.id %}<span class="badge badge-success">Completed</span>
+			{%endif%}</i></small></b></p>
+		</center>
+        </button>
+      </h5>
+                </div>
+                <div id="{{ch.name}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">{%if ch.status == 1 and date > ch.enddate %}<span class="badge badge-danger">Expired</span><p>You can not take this chapter. End date is expired.</p>{%else%}<a class="btn btn-default btn-md btn-block" , href="{% url 'chapter_detail' pk=ch.id %}"><i>Go to  </i><b>{{ch.name}}</b></a>
+                  {% endif %}
+                  {%if cors.inst.email == user%}
+                    <div class="btn-group rounded">
+                      <form action="{%url 'addmat'  %}" method="post" role=form>
+                        <input type="hidden" name="chpid" value="{{ch.id}}">
+                        <input type="hidden" name="courseid" value="{{cors.id}}">
+                        <button type="submit" class="btn btn-success"> Add Material</button>
+                      </form>
+                      <form action="{%url 'visibility'%}" method="post" role=form>
+                            <input type="hidden" name="chid" value="{{ch.id}}">
+                        <button type="submit" class="btn btn-success"> Change Visibility</button>
+                         </form>
+                      <div class="container">
+
+                        <!-- Large modal -->
+                        <center><button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#{{ch.id}}">Delete Chapter</button></center>
+
+                        <div class="modal fade bs-example-modal-lg1" id="{{ch.id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                              <div class="modal-body">
+
+                                <center>
+                                  <H2>Are you sure for delete the chapter?</H2>
+                                </center>
+
+                                <center><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <form action="{%url 'deletechapter' pk=cors.id%}" method="post" role=form><input type="hidden" name="chptrid" value="{{ch.id}}"><button type="submit" class="btn btn-danger">Delete Chapter</button>
+                                  </form>
+                                </center>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>{% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %} {% endif %}
+        </div>{%if status == 'true' %}
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="list-group">
+                {% for mt in mat1 %}
+                {% for a in taken %}
+                {% if a.material.id == mt.id%}
+                {% if a.material.type == "HW" %}
+                    {% for h in homeworks %}
+                                    {% if h.material == a.material %}
+                                        {% if h.status == 1 %}
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-warning">Chapter : {{a.chapter.name}} - Material Type <span class="badge badge-warning">Homework</span> - Homework Status <span class="badge badge-warning">Submitted</span></a>
+                                        {% else %}
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-success">Chapter : {{a.chapter.name}} - Material Type <span class="badge badge-warning">Homework</span> - Homework Status <span class="badge badge-success">Checked by Instructor</span></a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                {% else %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">Chapter : {{a.chapter.name}}    {%if a.material.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif a.material.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif a.material.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif a.material.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif a.material.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %} - Material Status <span class="badge badge-success">Completed</span></a>
+                {% endif %}
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+              {% for mt in mat %}
+
+                {% if a.material.id != mt.id%}
+           <a href="#" class="list-group-item list-group-item-action">Chapter : {{mt.chapter.name}}    {%if mt.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif mt.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif mt.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif mt.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif mt.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %} - Material Status <span class="badge badge-secondary">Not Completed</span></a>
+
+              {% endif %}
+
+              {% endfor %}
+            </div>
+
+        {% for ch in taken %}
+        <p></p>{% endfor %}
+      </div>{% endif %}
+      </div>
+
+    </div>
+
+  </div>
+
+  {% endblock %}

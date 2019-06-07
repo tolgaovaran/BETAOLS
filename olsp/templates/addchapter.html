@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+
+<body>
+    <div class="container">
+        <div class="a">
+
+            <br><br>
+
+            <form action="{%url 'addmattochptr' pk=courseid %}" method="post" role=form enctype="multipart/form-data">
+            <input type="hidden" name="cpid" value="{{chpid}}">
+
+
+            <div class="form-group">
+				<label for="typee">Type :</label>
+				<select id="typee" name="typee" class="form-control">
+				    <option value="PDF">PDF</option>
+                    <option value="VIDEO">VIDEO</option>
+                    <option value="PICTURE">PICTURE</option>
+                    <option value="TEXT">TEXT</option>
+                    <option value="HW">Homework</option>
+				</select>
+			</div>
+            <br>
+            <div class="form-group">
+                <label for="file">MatPath :</label><br>
+                <input type="file" name="myfile" value="" id="file">
+            </div>
+             <br>
+            <div class="form-group">
+                <label for="description">Description :</label>
+                <textarea type="text" name="Description" id="description" class="form-control" value="{{use.title}}"  required> {{use.title}}</textarea>
+            </div>
+             <br>
+			<button class="btn btn-primary"type="submit">Add Chapter</button>
+
+            <a class="btn btn-primary btn-md", href="{% url 'course_detail' pk=courseid %}"><i>Back to course</i></a>
+            </form>
+
+            {% if uploaded_file_url %}
+                <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+              {% endif %}
+              </div>
+                   </div>
+                   </body>

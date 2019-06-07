@@ -1,0 +1,116 @@
+{% extends 'n/liheader.html' %} {% block content %}
+<style>
+    .img{
+    width: 100%;
+}
+    .card-img-top {
+    width: 100%;
+}
+</style>
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'course_list' %}">All Courses</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'category_detail' pk=cors.category.id %}">{{cors.category.name}}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'course_detail' pk=cors.id %}">{{ cors.name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{chpt.name}}</li>
+  </ol>
+</nav>
+        <div>
+            <a class="btn btn-primary" href="{% url 'chat' %}?msjto=g{{cors.id|urlencode}}">{{cors.name}} Chat</a>
+            <a class="btn btn-primary btn-md", href="{% url 'course_detail' pk=cors.id %}"><i>Back to </i><b>{{cors.name}}</b></a>
+        {%for i in allmat %}{% if i.id != mt.id %}<a class="btn btn-primary btn-md", href="{% url 'material_detail' pk=i.id %}"><i>Go to Chapter</i><b>{{i.id}}</b></a>{% endif %}
+            {% endfor %}
+
+        </div>
+
+
+    <center><h1><b></b><i>Materials of </i>{{chpt.name}}</h1></center>
+
+{%if status == 'true' or cors.inst.email == user %}
+<div id="accordion" class="tesla1">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#{{mt.description}}" aria-expanded="true" aria-controls="{{mt.description}}">
+          <center>
+			<p style="font-size:18px"><b>{{mt.name}}-{{mt.description}}</b></p>
+		</center>
+        </button>
+      </h5>
+    </div>
+
+        <div id="{{mt.description}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+
+      <div class="card-body">
+
+        {%if mt.type == 'PDF' %}
+                                    <center><embed src="{{mt.matpath}}" type="application/pdf" width="100%" height="1000px" /></center><br>
+                                {%elif mt.type == 'VIDEO' %}
+                                <p>{{mt.enddate}}</p>
+                                    <center><video id='{{mt.id}}' class="embed-responsive embed-responsive-16by9" controls="controls"></video></center>
+                                    <script>
+
+                                const NUM_CHUNKS = 5;
+                                var video = document.querySelector('video');
+                                video.src = "{% url 'stream' x=0 y=1000 %}?name={{mt.matpath}}"
+                                video.addEventListener('webkitsourceopen', function(e) {
+                                  var chunkSize = Math.ceil(file.size / NUM_CHUNKS);
+                                  for (var i = 0; i < NUM_CHUNKS; ++i) {
+                                    var startByte = chunkSize * i;
+                                    var chunk = file.slice(startByte, startByte + chunkSize);
+                                    var reader = new FileReader();
+                                    reader.onload = (function(idx) {
+                                      return function(e) {
+                                        video.webkitSourceAppend(new Uint8Array(e.target.result));
+                                        logger.log('appending chunk:' + idx);
+                                        if (idx == NUM_CHUNKS - 1) {
+                                          video.webkitSourceEndOfStream(HTMLMediaElement.EOS_NO_ERROR);
+                                        }
+                                      };
+                                    })(i);
+                                    reader.readAsArrayBuffer(chunk);
+                                  }
+                                }, false);
+                                    </script>
+
+                                {%elif mt.type == 'TEXT' %}
+                                    <br>
+                                    <center><p>{{mt.text}}</p></center><br>
+                                {%else%}
+                                    <img class="card-img-bottom" src="{{mt.matpath}}" alt="Card image cap">
+
+                                {%endif%}
+                                <div class="card-body tesla1">
+                                <h5 class="card-title">Descripton of {{mt.name}}</h5><hr>
+                                <p class="card-text">{{mt.description}}</p>
+
+                              </div>
+
+                                {%if cors.inst.email == user%}
+                                <form action="{%url 'deletematerial' pk=cors.id%}" method="post" role=form>
+                                    <input type="hidden" name="mtrlid" value="{{mt.id}}">
+                                    <button class="btn btn-danger" type="submit">Delete Material</button>
+                                </form>
+
+                                <form action="{%url 'modifymat' pk=cors.id pk1=mt.chapter.id%}" method="post" role=form>
+                                 <button type="submit" class="btn btn-info">Modify Material</button>
+                                 </form>
+                                {%endif%}
+
+
+
+      </div>
+    </div>
+  </div>
+  </div>
+  {% else %}
+            <center><h1>You can not see the materials. Please enroll the course or contact the admin.</h1></center>
+        {% endif %}
+
+
+	</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+<body>
+
+<div class="container">
+
+        <div class="a">
+            <form action="{%url 'editdetail' pk=course.id%}" method="post" role=form enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="email">Description:</label>
+                <textarea type="text" name="desc" value="{{course.description}}" class="form-control" rows="4" cols="50" required>{{course.description}}</textarea>
+
+            </div>
+
+
+            <input type="hidden" name="cid" value="{{course.id}}">
+            <div class="form-group">
+                <label for="crsend">End Date:</label> <br>
+                <input  name="tarih" type="date" id='datee' / required>
+            </div>
+
+            <div class="form-group">
+                     <label>Add Photo</label><br>
+                <input type="file" name="myfile" value="" id="file" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary"> Update Detail</button>
+            </form>
+            {%if error%}
+             <h1>{{error}}</h1>
+             {%endif%}
+             </div>
+        </div>
+
+<script>
+
+if({{course.enddate.month}}<10 && {{course.enddate.day}}<10)
+{
+var currentDate = "{{course.enddate.year}}-0{{course.enddate.month}}-0{{course.enddate.day}}"
+}
+else if({{course.enddate.month}}<10)
+{
+var currentDate = "{{course.enddate.year}}-0{{course.enddate.month}}-{{course.enddate.day}}"
+}
+
+else
+{
+var currentDate = "{{course.enddate.year}}-{{course.enddate.month}}-0{{course.enddate.day}}"
+}
+
+
+document.getElementById('datee').value = currentDate;
+</script>
+
+
+
+</body>

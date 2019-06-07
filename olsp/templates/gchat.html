@@ -1,0 +1,53 @@
+{% load staticfiles %}
+{% include 'loggedin.html' %}
+
+<meta http-equiv="refresh" content="10"/>
+
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+</head>
+<style>
+
+    a {
+        color:white;
+    }
+</style>
+<body>
+    <div id="chat-body" class="panel panel-default" style="padding:25px;margin:auto;">
+        <div class="panel-heading">Chat</div>
+        <div id="msg-list-div" class="panel-body">
+            <ul id="msg-list" class="list-group">
+
+                {% for i in chat %}
+                    {% if u1 == i.sender %}
+
+                        <li class="text-right list-group-item">{{i.message}}</li>
+
+
+                    {% else %}
+                        {{i.sender}}
+                        <li class="text-left list-group-item">{{i.message}}</li>
+                    {% endif %}
+                {% endfor %}
+                    {% if cht1 %}
+                         <li class="text-left list-group-item">------------------------</li>
+                    {% endif %}
+            </ul>
+        </div>
+    </div>
+</input>
+    <form id="chat-form" method="post" action="">
+        {% csrf_token %}
+        <div id="chat-bottom" class="input-group">
+            <input type="text" id="chat-msg" name="message" class="form-control"></input>
+            <span class="input-group-btn">
+                <input class="btn btn-default" id="send" type="submit"value="send"></input>
+            </span>
+        </div>
+    </form>
+
+</body>
+{%include 'n/chatfooter.html' %}

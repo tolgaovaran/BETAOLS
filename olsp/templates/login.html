@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{%include 'header.html' %}
+{%include 'loggedout.html' %}
+<style>
+body {
+    background-size:cover;
+    background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+
+
+}
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-sm-4"></div>
+            <div class="col-xs-6 col-sm-4"style="opacity: 1">
+             <br/><br/>
+                <form action="" method="post" data-toggle="validator" role=form>
+                  {% csrf_token %}
+
+                    <div class="form-group row">
+                        <label>User ID</label>
+                        <input type="text" class="form-control" name="id" style="" required>
+                    </div>
+                    <div class="form-group row">
+                        <label>Password</label>
+                       <input type="password" class="form-control" name="password" style="" required>
+                    <br>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+
+                 {% if error %}
+                  <p class="error text text-danger">{{error}}sssssssssssssssss</p>
+
+                  {% endif %}
+                </form>
+            </div>
+            <div class="col-xs-6 col-sm-4"></div>
+        </div>
+    </div>
+</body>

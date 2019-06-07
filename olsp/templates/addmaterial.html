@@ -1,0 +1,43 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}<br><br><br>
+
+<body>
+    <div class="container">
+
+        <div class="a">
+
+            <h4>Create a Chapter</h4>
+
+
+            Please Choose the chapter's start & end date for the students to submit their assignments.
+            <br>
+            <br>
+            <form action="{%url 'addchapter'%}" method="post" role=form>
+
+            <div class="form-group">
+                <label for="email">Chapter Name:</label>
+                <input type="text" name="crsname" value=""class="form-control"required>
+
+            </div>
+
+            <br>
+            <input type="hidden" name="cid" value="{{idd}}">
+            <div class="form-group">
+                <label for="crsstart">Start date</label>
+                <input type="date" name="crsstart" id="crsstart" class="form-control"required>
+            </div>
+
+            <div class="form-group">
+                <label for="crsend">End Date</label>
+                <input type="date" name="crsend" id="crsend"class="form-control" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary"> Add Chapter</button>
+            </form>
+            {%if error%}
+             <h1>{{error}}</h1>
+             {%endif%}
+             </div>
+        </div>
+</body>

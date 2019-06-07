@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% include 'n/liheader.html' %}
+<br><br><br>
+</style>
+     <div class="container">
+
+
+        <form class="form-group" method="post" action="{%url 'createcourse'%}" data-toggle="validator" role="form" id="Registration" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="email">Course Name</label>
+                <input type="text" name="crsname" id="crsname" placeholder="Enter name" class="form-control" required>
+
+            </div>
+
+            <div class="form-group">
+                <label for="crsstart">Description</label>
+                <input type="text" name="crsdescp" id="crsdescp" placeholder="Enter name" class="form-control"required>
+            </div>
+
+            <div class="form-group">
+                <label for="crsstart">Start date</label>
+                <input type="date" name="crsstart" id="crsstart" class="form-control"required>
+            </div>
+
+            <div class="form-group">
+                <label for="crsend">End Date</label>
+                <input type="date" name="crsend" id="crsend"class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="catname">Category</label>
+                <select name="catname">
+
+                          {% for i in cat %}
+                            <option value="{{i.name}}">{{i.name}}</option>
+                            {% endfor %}
+                            <option value="non">None of them above</option>
+                        </select>
+
+            </div>
+                 <div class="form-group">
+                     <label>Add Photo(Optional)</label>
+                <input type="file" name="myfile" value="" id="file"accept="image/*">
+            </div>
+
+            <div class="form-group">
+                    <button class="btn btn-primary btn-lg" type="submit">  Create  </button>
+            </div>
+
+
+    </div>
+
+{%if error%}
+ <h1>{{error}}</h1>
+ {%endif%}

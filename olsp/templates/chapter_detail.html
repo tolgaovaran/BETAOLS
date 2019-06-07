@@ -1,0 +1,158 @@
+{% extends 'n/liheader.html' %}
+
+{% block content %}
+<style>
+    .img{
+    width: 100%;
+}
+    .card-img-top {
+    width: 100%;
+}
+</style>
+<br>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'course_list' %}">All Courses</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'category_detail' pk=cors.category.id %}">{{cors.category.name}}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'course_detail' pk=cors.id %}">{{ cors.name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{chpt.name}}</li>
+  </ol>
+</nav>
+        <div>
+            <a class="btn btn-primary" href="{% url 'chat' %}?msjto=g{{cors.id|urlencode}}">{{cors.name}} Chat</a>
+            <a class="btn btn-primary btn-md", href="{% url 'course_detail' pk=cors.id %}"><i>Back to </i><b>{{cors.name}}</b></a>
+
+
+        </div><br>
+        <center><h1><b></b><i>Materials of </i>{{chpt.name}}</h1></center>
+
+
+{%if status == 'true' or cors.inst.email == user %}
+
+{% for mt in mat %}
+{{mater1}}
+<div id="accordion" class="tesla1">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+
+            <form action="{%url 'chapter_detail' pk=mt.chapter.id%}" method="post" role=form>
+                <input type="hidden" name="mtrlid" value="{{mt.id}}">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#{{mt.description}}" aria-expanded="true" aria-controls="{{mt.description}}">
+             </form>
+          <center>
+			<p style="font-size:18px"><b><span class="badge badge-danger">Not Opened</span>{%if mt.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif mt.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif mt.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif mt.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif mt.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %}   {{mt.description}}</b></p>
+		</center>
+        </button>
+      </h5>
+    </div>
+  </div>
+  </div>{% endfor %}
+  {% else %}
+            <center><h1>You can not see the materials. Please enroll the course or contact the admin.</h1></center>
+        {% endif %}
+
+{%if status == 'true' or cors.inst.email == user %}
+
+{% for mt in taken %}
+{%if mt.chapter == chpt %}
+<div id="accordion" class="tesla1">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+
+        <button class="btn btn-link" data-toggle="collapse" data-target="#{{mt.material.id}}" aria-expanded="true" aria-controls="{{mt.material.id}}">
+
+          <center>
+			<p style="font-size:18px"><b><span class="badge badge-success">Opened</span>{%if mt.material.type == 'PDF' %}<span class="badge badge-warning">Document</span>{%elif mt.material.type == 'VIDEO' %}<span class="badge badge-warning">Video</span>{%elif mt.material.type == 'TEXT' %}<span class="badge badge-warning">Text</span>{%elif mt.material.type == 'PICTURE' %}<span class="badge badge-warning">Picture</span>{%elif mt.material.type == 'HW'%}<span class="badge badge-warning">Homework</span> {% endif %}  {{mt.material.description}}</b></p>
+		</center>
+        </button>
+      </h5>
+    </div>
+        <div id="{{mt.material.id}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+
+        {%if mt.material.type == 'PDF' %}
+                                    <center><embed src="{{mt.material.matpath}}" type="application/pdf" width="100%" height="1000px" /></center><br>
+        {%elif mt.material.type == 'VIDEO' %}
+                                <p>{{mt.enddate}}</p>
+                                    <center><video id='#{{mt.material.id}}' src = "{{mt.material.matpath}}" class="embed-responsive embed-responsive-16by9" controls="controls" controlsList="nodownload"></video></center>
+
+                                <script>
+                                      $(document).ready(function(){
+                                               $('#{{mt.material.id}}').bind('contextmenu',function() { return false; });
+                                            });
+                                    </script>
+
+        {%elif mt.material.type == 'TEXT' %}
+                                    <br>
+                                    <center><p>{{mt.text}}</p></center><br>
+            {%elif mt.material.type == 'PICTURE' %}
+                        <img src="{{mt.material.matpath}}" class="img-fluid" alt="Responsive image">
+                                            {%elif mt.material.type == 'HW'%}
+                                    <form action="{%url 'uploadhw' pk=mt.material.id pk1=mt.chapter.id %}" method="post" role=form enctype="multipart/form-data">
+                                                                {%if '.pdf' in mt.material.matpath %}<center><embed src="{{mt.material.matpath}}" type="application/pdf" width="100%" height="1000px" /></center><br>
+
+                                                                {%elif '.jpg' in mt.material.matpath or '.jpeg' in mt.material.matpath or '.png' in mt.material.matpath %}
+
+                                                                <center><img src="{{mt.material.matpath}}" class="img-fluid" alt="Responsive image"></center>
+                                                                {%elif '.mp4' in mt.material.matpath or '.mpeg' in mt.material.matpath  %}
+
+                                                            <center><video id='#{{mt.material.id}}' src = "{{mt.material.matpath}}" class="embed-responsive embed-responsive-16by9" controls="controls" controlsList="nodownload"></video></center>
+                                                                                        <script>
+                                                                  $(document).ready(function(){
+                                                                           $('#{{mt.material.id}}').bind('contextmenu',function() { return false; });
+                                                                        });
+                                                                </script>
+                                                                {% else %}
+                                                                <center><p>{{mt.material.text}}</p></center><br>
+                                                                {% endif %}
+
+                                    {% if cors.inst.email != user %}
+                                    {% for i in almadiklari %}
+                                        {% if i.material == mt.material%}
+
+                                            <div class="form-group">
+                                    <label for="file">MatPath :</label><br>
+                                    <input type="file" name="myfile" value="" id="file">
+                                    <button class="btn btn-danger" type="submit">Upload HomeWork</button>
+                                    </div>
+
+
+                                    {%endif%}
+                                    {%endfor%}
+                                    {%endif%}
+                                    </form>
+                                {%endif%}
+                                <div class="card-body tesla1">
+                                <h5 class="card-title">Descripton of {{mt.name}}</h5><hr>
+                                <p class="card-text">{{mt.material.description}}</p>
+
+                              </div>
+
+                                {%if cors.inst.email == user%}
+                                <form action="{%url 'deletematerial' pk=mt.material.id%}" method="post" role=form>
+                                    <input type="hidden" name="mtrlid" value="{{mt.id}}">
+                                    <button class="btn btn-danger" type="submit">Delete Material</button>
+                                </form>
+
+                                <form action="{%url 'modifymat' pk=cors.id pk1=mt.material.id%}" method="post" role=form>
+                                 <button type="submit" class="btn btn-info">Modify Material</button>
+                                 </form>
+                                {%endif%}
+
+
+
+
+      </div>
+    </div>
+  </div>
+  </div>{% endif %}{% endfor %}
+  {% else %}
+            <center><h1>You can not see the materials. Please enroll the course or contact the admin.</h1></center>
+        {% endif %}
+	</div>
+
+{% endblock %}
+
+

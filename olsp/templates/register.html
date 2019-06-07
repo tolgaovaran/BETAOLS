@@ -1,0 +1,57 @@
+{% load staticfiles %}
+{% include 'loggedout.html' %}
+<style>
+body {
+    background-image: url("https://cdn.discordapp.com/attachments/380829110114582535/430792630989881344/header.jpg");
+    background-size:cover;
+}
+.container{
+    background: rgba(255, 255, 255,0.8);
+
+    padding:25px;
+    border-radius: 25px;
+}
+</style>
+<body>
+    <div class="sayfa col-lg-8 offset-lg-2">
+        <div class="container">
+
+  <h1>Registration</h1>
+  <hr>
+  <form class="col-md-5 col-sm-8 col-xs-7" method="post" action="" data-toggle="validator" role="form" id="Registration">
+    {% csrf_token %}
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">E-mail</label>
+      <div class="col-sm-10 col-md-8">
+          <input type="email" class="form-control " name="email" required></input>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label  class="col-sm-4 col-form-label">Name </label>
+      <div class="col-sm-10 col-md-8">
+        <input type="text" class="form-control" name="name"  required></input>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Surname </label>
+      <div class="col-sm-10 col-md-8">
+        <input type="text" class="form-control" name="surname"  required></input>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Password</label>
+      <div class="col-sm-10 col-md-8">
+        <input type="password" class="form-control" name="pass1"  required></input>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Password again</label>
+      <div class="col-sm-10 col-md-8">
+        <input type="password" class="form-control" name="pass2"  required></input>
+      </div>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" type="submit">send</button></div>
+    </div>
+</body>
+

@@ -1,0 +1,113 @@
+{% load staticfiles %}
+{% include 'n/booth.html' %}
+<html>
+
+<style>
+
+.progress {
+  position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}
+
+hr.style11 {
+	height: 6px;
+	background: url(http://ibrahimjabbari.com/english/images/hr-11.png) repeat-x 0 0;
+    border: 0;
+}
+
+br .detal{
+    line-height: 1px;
+ }
+.modal  {
+    /*   display: block;*/
+    padding-right: 0px;
+    background-color: rgba(4, 4, 4, 0.8);
+    }
+
+    .modal-dialog {
+            top: 20%;
+                width: 100%;
+    position: absolute;
+        }
+        .modal-content {
+                border-radius: 0px;
+                border: none;
+    top: 40%;
+            }
+            .modal-body {
+                    background-color: #0f8845;
+    color: white;
+                }
+
+</style>
+
+
+<body >
+
+<body>
+<nav class="navbar navbar-expand-md bg-primary navbar-light fixed-top">
+		<div class="container">
+
+			<!-- Logo -->
+			<a class="navbar-brand" href="{% url 'main' %}">Logo</a>
+
+			<!-- Links -->
+
+			<ul class="navbar-nav">
+
+					<li class="btn btn-primary nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Catagories</a>
+            <div class="dropdown-menu">
+
+                {%for cat in cate%}
+               <a class="dropdown-item" href="">{{ cat.name }}</a>
+                {%endfor%}
+
+				<li class="btn btn-primary nav-item">
+					<a href="{% url 'mycourse' %}" class="nav-link">Manage courses</a>
+				</li>
+
+
+				<li class="btn btn-primary nav-item dropdown">
+            <a class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" href="#">{{use.name}} {{use.surname}}</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'enroll_list' %}">Enrolled Courses</a>
+                <a class="dropdown-item" href="{% url 'chat1' %}">Messages</a>
+                <a class="dropdown-item" href="{% url 'profile'%}">Profile</a>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+
+
+            </div>
+        </li>
+			</ul>
+
+		</div>
+	</nav>
+
+
+</body>
+	<br><br><br>
+	<body>
+        <div>
+            <div>
+                <div class="container">
+
+                        {% block content %}
+					    {% endblock %}
+
+					<br>
+				</div>
+            </div>
+		</div>
+	</body>
+</html>
+
+{% include 'n/chatfooter.html' %}
+
+

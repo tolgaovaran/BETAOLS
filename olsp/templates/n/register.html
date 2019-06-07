@@ -1,0 +1,69 @@
+{% load staticfiles %}
+{% include 'n/booth.html' %}
+{% include 'n/loheader.html' %}
+
+
+<body>
+
+    <div class="container shadow">
+
+        <h1>Registration</h1>
+        <hr>
+
+        {% if x == 1 %}
+        <div class="alert alert-info">
+  <strong>Try Again!</strong> This e-mail already used.
+        </div>
+
+        {% endif %}
+
+
+        {% if x == 2 %}
+        <div class="alert alert-success">
+                <strong>Success!</strong> You registed Succesfully you can <a href="{% url 'login' %}">click here  </a>to Login.
+        </div>
+        {% endif %}
+        {% if x == 3 %}
+        <div class="alert alert-info">
+  <strong>Try Again!</strong> Check passwords and try again
+</div>
+
+        {% endif %}
+
+
+        <form class="form-group" method="post" action="" data-toggle="validator" role="form" id="Registration">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter e-mail" class="form-control" required>
+
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Enter name" class="form-control"required>
+            </div>
+
+            <div class="form-group">
+                <label for="surname">Name</label>
+                <input type="text" name="surname" id="surname" placeholder="Enter Surname" class="form-control"required>
+            </div>
+
+            <div class="form-group">
+                <label for="pass1">Password</label>
+                <input type="password" name="pass1" id="pass1" placeholder="Enter password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pass2">repeat Password</label>
+                <input type="password" name="pass2" id="pass2" placeholder="Repeat password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                    <button class="btn btn-primary btn-lg" type="submit">  Register  </button>
+            </div>
+
+    </div>
+</body>

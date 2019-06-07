@@ -1,0 +1,83 @@
+{% load staticfiles %}
+
+{% if use %}
+{% include 'n/liheader.html' %}
+
+<body>
+<div class="container shadow">
+
+        <div class="card-columns">
+                {% for i in course %}
+
+
+		    <div class="card">
+		        <a href="{% url 'course_detail' pk=i.pk %}">
+
+                     {%if i.picture%}
+                    <img class="card-img-top" src={{i.picture}} alt="Card image cap">
+                    {%else%}
+                    <img class="card-img-top" src="http://via.placeholder.com/286x180" alt="Card image cap">
+                    {%endif%}
+                    </a>
+			    <div class="card-body" style="min-height: 200px;">
+			    	<h5 class="card-title"><a href="{% url 'course_detail' pk=i.pk %}">{{ i.name }} </a></h5>
+			    	<p class="card-text">{{i.description}}</p>
+
+			    </div>
+			    <div class="card-footer">
+			          <a href="{% url 'inst_course_list' pk=i.inst.id %}">{{ i.inst.name }} {{i.inst.surname}}</a>
+			    </div>
+	        </div>
+
+
+                {% endfor %}
+			</div>
+
+		</div>
+
+
+
+
+
+</body>
+
+{% else %}
+{% include 'n/loheader.html' %}
+
+
+
+<body>
+<div class="container shadow">
+
+        <div class="card-columns">
+                {% for i in course %}
+
+
+		    <div class="card">
+		        <a href="{% url 'course_detail' pk=i.pk %}">
+
+                     {%if i.picture%}
+                    <img class="card-img-top" src={{i.picture}} alt="Card image cap">
+                    {%else%}
+                    <img class="card-img-top" src="http://via.placeholder.com/286x180" alt="Card image cap">
+                    {%endif%}
+                    </a>
+
+			    <div class="card-body">
+			    	<h5 class="card-title"><a href="{% url 'course_detail' pk=i.pk %}">{{ i.name }} </a></h5>
+			    	<p class="card-text">{{i.description}} </p>
+
+			    </div>
+			    <div class="card-footer">
+			          <a href="{% url 'inst_course_list' pk=i.inst.id %}">{{ i.inst.name }} {{i.inst.surname}}</a>
+			    </div>
+	        </div>
+
+
+                {% endfor %}
+			</div>
+
+		</div>
+
+</body>
+{% endif%}
